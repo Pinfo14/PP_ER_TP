@@ -10,32 +10,42 @@ import com.estg.core.Measurement;
 import com.estg.core.exceptions.MeasurementException;
 import java.time.LocalDate;
 
-
 /**
  *
  * @author emanu
  */
 public class ContainerImp implements Container {
-    
-    private  String code;
-    private  double capacity;
-    private  ContainerType type;
-    private  Measurement[] measurements;
-    private  int numberOfMeasurements;
+
+    public static final int INIT_MEASUREMENTS_SIZE = 5;
+    public static final int GROWTH = 2;
+
+    private String code;
+    private double capacity;
+    private ContainerType type;
+    private Measurement[] measurements;
+    private int numberOfMeasurements;
+
+    public ContainerImp(String code, double capacity, ContainerType type) {
+        this.code = code;
+        this.capacity = capacity;
+        this.type = type;
+        this.measurements = new Measurement[INIT_MEASUREMENTS_SIZE];
+        this.numberOfMeasurements = 0;
+    }
 
     @Override
     public String getCode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.code;
     }
 
     @Override
     public double getCapacity() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.capacity;
     }
 
     @Override
     public ContainerType getType() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.type;
     }
 
     @Override
@@ -52,5 +62,5 @@ public class ContainerImp implements Container {
     public boolean addMeasurement(Measurement msrmnt) throws MeasurementException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
