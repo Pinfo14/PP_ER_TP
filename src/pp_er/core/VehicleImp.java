@@ -16,9 +16,15 @@ public class VehicleImp implements Vehicle {
     private String code;
     private double capacity;
     
+    
+    public VehicleImp (String code, double capacity){
+        this.capacity = capacity;
+        this.code = code;
+    }
+    
     @Override
     public String getCode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.code;
     }
 
     @Override

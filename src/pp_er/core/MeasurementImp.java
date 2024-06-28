@@ -11,11 +11,18 @@ import java.time.LocalDateTime;
  *
  * @author emanu
  */
+
 public class MeasurementImp implements Measurement {
     
     private  LocalDateTime date;
     private  double value;
     
+    
+    public MeasurementImp(LocalDateTime date, double value) {
+        this.date = date;
+        this.value = value;
+    }
+     
     @Override
     public LocalDateTime getDate() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
