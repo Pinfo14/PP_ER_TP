@@ -10,10 +10,12 @@ import com.estg.core.ContainerType;
 import com.estg.core.exceptions.AidBoxException;
 import com.estg.core.exceptions.ContainerException;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
+
 public class AidBoxImp implements AidBox {
 
     public static final int INIT_CONTAINER_SIZE = 5;
@@ -51,14 +53,44 @@ public class AidBoxImp implements AidBox {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    private void expandContainers() {
+
+        Container[] temp = new Container[this.containersCount * GROWTH];
+
+        for (int i = 0; i < this.containersCount; i++) {
+            temp[i] = this.containers[i];
+        }
+
+        this.containers = temp;
+    }
+
     @Override
     public boolean addContainer(Container cntnr) throws ContainerException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (cntnr == null) {
+            throw new ContainerException("Container is null");
+        }
+
+        if (this.getContainer(cntnr.getType()) != null) {
+            return false;
+        }
+
+        if (this.containersCount == this.containers.length) {
+            expandContainers();
+        }
+
+        this.containers[this.containersCount++] = cntnr;
+
+        return true;
     }
 
     @Override
     public Container getContainer(ContainerType ct) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (int i = 0; i < this.containersCount; i++) {
+            if (this.containers[i].equals(ct)) {
+                return this.containers[i];
+            }
+        }
+        return null;
     }
 
     @Override
@@ -66,9 +98,35 @@ public class AidBoxImp implements AidBox {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    private int found(Container cntnr){
+        for(int i=0;i<this.containersCount;i++){
+            if(this.containers[i].equals(cntnr)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    
     @Override
     public void removeContainer(Container cntnr) throws AidBoxException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        int index = found(cntnr);
+        
+        if (cntnr == null) {
+            throw new AidBoxException("Container is null");
+        }
+        
+        if(index == -1){
+             throw new AidBoxException("Container doesnt exist");
+        }
+        
+        for (int i = index; i<this.containersCount-1;i++){
+             this.containers[i] = this.containers[i + 1];
+        }
+        
+         this.containers[--this.containersCount] = null; 
+
     }
 
 }

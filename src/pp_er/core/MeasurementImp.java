@@ -6,11 +6,13 @@ package pp_er.core;
 
 import com.estg.core.Measurement;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
 
 public class MeasurementImp implements Measurement {
     
@@ -31,6 +33,28 @@ public class MeasurementImp implements Measurement {
     @Override
     public double getValue() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.date);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MeasurementImp other = (MeasurementImp) obj;
+        return Objects.equals(this.date, other.date);
     }
     
 }

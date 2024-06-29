@@ -7,10 +7,11 @@ package pp_er.core;
 import com.estg.core.ContainerType;
 import com.estg.pickingManagement.Vehicle;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
 public class VehicleImp implements Vehicle {
 
     private String code;

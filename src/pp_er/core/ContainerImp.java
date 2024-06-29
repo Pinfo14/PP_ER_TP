@@ -9,11 +9,13 @@ import com.estg.core.ContainerType;
 import com.estg.core.Measurement;
 import com.estg.core.exceptions.MeasurementException;
 import java.time.LocalDate;
+import java.util.Objects;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
 public class ContainerImp implements Container {
 
     public static final int INIT_MEASUREMENTS_SIZE = 5;
@@ -63,5 +65,32 @@ public class ContainerImp implements Container {
     public boolean addMeasurement(Measurement msrmnt) throws MeasurementException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.code);
+        hash = 89 * hash + Objects.hashCode(this.type);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ContainerImp other = (ContainerImp) obj;
+        if (!Objects.equals(this.code, other.code)) {
+            return false;
+        }
+        return Objects.equals(this.type, other.type);
+    }
+    
 
 }
