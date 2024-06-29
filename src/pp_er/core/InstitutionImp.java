@@ -18,12 +18,36 @@ import com.estg.pickingManagement.PickingMap;
 import com.estg.pickingManagement.Vehicle;
 import java.time.LocalDateTime;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
 public class InstitutionImp implements Institution{
 
+    private static final int MAX_AIDBOXES = 10;
+    private static final int MAX_VEHICLES = 5;
+    private static final int MAX_PICKINGMAPS = 5;
+
+    private String name;
+    private AidBox[] aidBoxes;
+    private int aidBoxCount;
+    private Vehicle[] vehicles;
+    private int vehicleCount;
+    private PickingMap[] pickingMaps;
+    private int pickingMapCount;
+
+    public InstitutionImp(String name) {
+        this.name = name;
+        this.aidBoxes = new AidBox[MAX_AIDBOXES];
+        this.aidBoxCount = 0;
+        this.vehicles = new Vehicle[MAX_VEHICLES];
+        this.vehicleCount = 0;
+        this.pickingMaps = new PickingMap[MAX_PICKINGMAPS];
+        this.pickingMapCount = 0;
+    }
+
+    
     @Override
     public String getName() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
