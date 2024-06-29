@@ -25,14 +25,14 @@ public class ContainerImp implements Container {
     private double capacity;
     private ContainerType type;
     private Measurement[] measurements;
-    private int numberOfMeasurements;
+    private int measurementsCount;
 
     public ContainerImp(String code, double capacity, ContainerType type) {
         this.code = code;
         this.capacity = capacity;
         this.type = type;
         this.measurements = new Measurement[INIT_MEASUREMENTS_SIZE];
-        this.numberOfMeasurements = 0;
+        this.measurementsCount = 0;
     }
     
    
@@ -53,7 +53,7 @@ public class ContainerImp implements Container {
 
     @Override
     public Measurement[] getMeasurements() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
