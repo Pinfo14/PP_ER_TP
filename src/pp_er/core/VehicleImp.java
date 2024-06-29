@@ -30,7 +30,7 @@ public class VehicleImp implements Vehicle {
 
     @Override
     public double getCapacity(ContainerType ct) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.capacity;
     }
     
 }

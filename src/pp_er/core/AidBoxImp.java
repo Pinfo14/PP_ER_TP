@@ -23,6 +23,7 @@ public class AidBoxImp implements AidBox {
 
     private String code;
     private String zone;
+    private Path[] paths;
     private Container[] containers;
     private int containersCount;
 
