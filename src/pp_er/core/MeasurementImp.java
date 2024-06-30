@@ -27,14 +27,19 @@ public class MeasurementImp implements Measurement {
      
     @Override
     public LocalDateTime getDate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.date;
     }
 
     @Override
     public double getValue() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.value;
     }
 
+     public MeasurementImp copyMeasurement() {
+       
+        return new MeasurementImp(this.date, this.getValue());
+    }
+     
     @Override
     public int hashCode() {
         int hash = 5;

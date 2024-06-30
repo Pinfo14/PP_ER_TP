@@ -4,22 +4,28 @@
  */
 package pp_er.core;
 
+import com.estg.core.AidBox;
+
+
 /**
- *
- * @author emanu
+ * Nome: Emanuel Jose Teixeira Pinto
+ * Número: 8230371
+ * Turma: Turma 4
  */
 public class Path {
     
-    private String aidBoxCode;
+    private AidBox aidbox;
     private double distance;
     private double duration;
 
-    public Path(String aidBoxCode,double duration,double distance) {
-       this.aidBoxCode = aidBoxCode;
-       this.distance=distance;
-       this.duration=duration;
+    
+    public Path(AidBox aidbox, double distance, double duration) {
+        this.aidbox = aidbox;
+        this.distance = distance;
+        this.duration = duration;
     }
 
+    
     public double getDistance() {
         return this.distance;
     }
@@ -27,8 +33,8 @@ public class Path {
     public double getDuration() {
         return this.duration;
     }
-    public String getAidBoxCode() {
-        return this.aidBoxCode;
+
+    public AidBox getAidBoxCode() {
+        return this.aidbox;
     }
-    
 }

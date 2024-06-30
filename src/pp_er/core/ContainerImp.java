@@ -15,7 +15,7 @@ import java.util.Objects;
 * Nome: Emanuel Jose Teixeira Pinto
 * Número: 8230371
 * Turma: Turma 4
-*/
+ */
 public class ContainerImp implements Container {
 
     public static final int INIT_MEASUREMENTS_SIZE = 5;
@@ -34,8 +34,7 @@ public class ContainerImp implements Container {
         this.measurements = new Measurement[INIT_MEASUREMENTS_SIZE];
         this.measurementsCount = 0;
     }
-    
-   
+
     @Override
     public String getCode() {
         return this.code;
@@ -51,19 +50,65 @@ public class ContainerImp implements Container {
         return this.type;
     }
 
-    @Override
     public Measurement[] getMeasurements() {
-          throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Measurement[] result = new Measurement[this.measurementsCount];
+        for (int i = 0; i < this.measurementsCount; i++) {
+            result[i] = ((MeasurementImp) measurements[i]).copyMeasurement();
+        }
+        return result;
     }
 
     @Override
-    public Measurement[] getMeasurements(LocalDate ld) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Measurement[] getMeasurements(LocalDate date) {
+        Measurement[] temp = new Measurement[this.measurementsCount];
+        int count = 0;
+        for (int i = 0; i < this.measurementsCount; i++) {
+            if (measurements[i].getDate().toLocalDate().equals(date)) {
+                temp[count++] = ((MeasurementImp) measurements[i]).copyMeasurement();
+            }
+        }
+        Measurement[] result = new Measurement[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = temp[i];
+        }
+        return result;
     }
 
     @Override
     public boolean addMeasurement(Measurement msrmnt) throws MeasurementException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (msrmnt == null) {
+            throw new MeasurementException("Measurement is null");
+        }
+        if (msrmnt.getValue() < 0) {
+            throw new MeasurementException("Measurement value is less than 0");
+        }
+        if (this.measurementsCount > 0 && msrmnt.getDate().isBefore(this.measurements[measurementsCount - 1].getDate())) {
+            throw new MeasurementException("Measurement date is before the last date");
+        }
+
+        if (this.measurementsCount == this.measurements.length) {
+            expandMeasurements();
+        }
+
+        this.measurements[this.measurementsCount++] = msrmnt;
+        return true;
+    }
+
+    private void expandMeasurements() {
+        Measurement[] temp = new Measurement[this.measurementsCount * GROWTH];
+
+        for (int i = 0; i < this.measurementsCount; i++) {
+            temp[i] = this.measurements[i];
+        }
+
+        this.measurements = temp;
+    }
+
+    public Container clone() throws CloneNotSupportedException {
+        ContainerImp clone = (ContainerImp) super.clone();
+        clone.measurements = this.getMeasurements();
+
+        return clone;
     }
 
     @Override
@@ -91,6 +136,5 @@ public class ContainerImp implements Container {
         }
         return Objects.equals(this.type, other.type);
     }
-    
 
 }

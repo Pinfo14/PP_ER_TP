@@ -19,11 +19,13 @@ import com.estg.core.exceptions.ContainerException;
 public class AidBoxImp implements AidBox {
 
     public static final int INIT_CONTAINER_SIZE = 5;
+    public static final int INIT_PATHS_SIZE = 5;
     public static final int GROWTH = 2;
 
     private String code;
     private String zone;
     private Path[] paths;
+    private int pathCount;
     private Container[] containers;
     private int containersCount;
 
@@ -32,6 +34,8 @@ public class AidBoxImp implements AidBox {
         this.zone = zone;
         this.containers = new Container[INIT_CONTAINER_SIZE];
         this.containersCount = 0;
+        this.paths = new Path[INIT_PATHS_SIZE];
+        this.pathCount = 0;
     }
 
     @Override
@@ -44,18 +48,27 @@ public class AidBoxImp implements AidBox {
         return this.zone;
     }
 
-    @Override
+ @Override
     public double getDistance(AidBox aidbox) throws AidBoxException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (int i = 0; i < this.pathCount; i++) {
+            if (this.paths[i].getAidBoxCode().equals(aidbox.getCode())) {
+                return this.paths[i].getDistance();
+            }
+        }
+        throw new AidBoxException("Path to AidBox not found");
     }
 
     @Override
     public double getDuration(AidBox aidbox) throws AidBoxException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (int i = 0; i < this.pathCount; i++) {
+            if (this.paths[i].getAidBoxCode().equals(aidbox.getCode())) {
+                return this.paths[i].getDuration();
+            }
+        }
+        throw new AidBoxException("Path to  AidBox not found");
     }
 
     private void expandContainers() {
-
         Container[] temp = new Container[this.containersCount * GROWTH];
 
         for (int i = 0; i < this.containersCount; i++) {
@@ -94,9 +107,13 @@ public class AidBoxImp implements AidBox {
         return null;
     }
 
-    @Override
+     @Override
     public Container[] getContainers() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Container[] result = new Container[this.containersCount];
+        for (int i = 0; i < this.containersCount; i++) {
+            result[i] = this.containers[i];
+        }
+        return result;
     }
 
     private int found(Container cntnr){
@@ -129,5 +146,33 @@ public class AidBoxImp implements AidBox {
          this.containers[--this.containersCount] = null; 
 
     }
+    
+    private void expandPaths(){
+        Path[] temp = new Path[this.pathCount * GROWTH];
+
+        for (int i = 0; i < this.pathCount; i++) {
+            temp[i] = this.paths[i];
+        }
+
+        this.paths = temp;
+    }
+    
+    
+    //EXECPIONS fazer
+      public void addPath(Path path) {
+        if (this.pathCount == this.paths.length) {
+            expandPaths();
+        }
+        this.paths[this.pathCount++] = path;
+    }
+
+    public Path[] getPaths() {
+        Path[] result = new Path[this.pathCount];
+        for (int i = 0; i < this.pathCount; i++) {
+            result[i] = this.paths[i];
+        }
+        return result;
+    }
+    
 
 }
