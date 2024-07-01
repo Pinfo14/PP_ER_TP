@@ -8,9 +8,12 @@ import pp_er.core.ContainerTypeImp;
 import com.estg.core.*;
 import com.estg.core.exceptions.*;
 import com.estg.pickingManagement.Vehicle;
+import com.estg.pickingManagement.exceptions.RouteException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import pp_er.pickingManagement.ReportImp;
+import pp_er.pickingManagement.RouteImp;
 import pp_er.pickingManagement.VehicleImp;
 
 /**
@@ -18,57 +21,54 @@ import pp_er.pickingManagement.VehicleImp;
  * @author emanu
  */
 public class demo1 {
-  public static void main(String[] args) {
-       try {
-            // Creating instances of AidBox
-            AidBoxImp aidBox1 = new AidBoxImp("A001", "Zone1");
-            AidBoxImp aidBox2 = new AidBoxImp("A002", "Zone2");
-            
-            
-            ContainerType typ1 =new ContainerTypeImp("type1");
+  public static void main(String[] args) throws RouteException {
+      try {
+              // Create some container types
+            ContainerType perishable = new ContainerTypeImp("Perishable");
+            ContainerType nonPerishable = new ContainerTypeImp("Non-perishable");
 
-            // Creating containers
-            Container container1 = new ContainerImp("C001",100,typ1);
-            Container container2 = new ContainerImp("C002",100 ,typ1);
-            Container container3 = new ContainerImp("C003", 100,typ1);
+            // Create some containers
+            Container perishableContainer = new ContainerImp("C1", 100, perishable);
+            Container nonPerishableContainer = new ContainerImp("C2", 200, nonPerishable);
 
-            // Adding containers to aidBox1
-            aidBox1.addContainer(container1);
-            aidBox1.addContainer(container2);
+            // Create some aid boxes
+            AidBox aidBox1 = new AidBoxImp("A1", "Zone1");
+            aidBox1.addContainer(perishableContainer);
+            AidBox aidBox2 = new AidBoxImp("A2", "Zone2");
+            aidBox2.addContainer(nonPerishableContainer);
 
-            // Displaying containers of aidBox1
-            System.out.println("Containers in aidBox1:");
-            for (Container container : aidBox1.getContainers()) {
-                System.out.println(container);
+            // Create a vehicle
+            VehicleImp vehicle = new VehicleImp("V1", 1000);
+
+            // Create a route
+            RouteImp route = new RouteImp(vehicle);
+
+            // Add aid boxes to the route
+            route.addAidBox(aidBox1);
+            route.addAidBox(aidBox2);
+
+            // Generate a report
+         
+            // Print vehicle details
+            System.out.println("Vehicle: " + vehicle);
+
+            // Print aid box details
+            System.out.println("AidBox 1: " + aidBox1);
+            System.out.println("AidBox 2: " + aidBox2);
+
+            // Print container details
+            System.out.println("Perishable Container: " + perishableContainer);
+            System.out.println("Non-Perishable Container: " + nonPerishableContainer);
+
+            // Print route details
+            System.out.println("Route:");
+            AidBox[] routeAidBoxes = route.getRoute();
+            for (AidBox aidBox : routeAidBoxes) {
+                System.out.println(aidBox);
             }
 
-            // Trying to add a duplicate container
-            boolean added = aidBox1.addContainer(container1);
-            if (!added) {
-                System.out.println("Container " + container1.getType() + " already exists in aidBox1.");
-            }
-
-            // Adding a path to aidBox1
-           
-//            Path path1 = new Path(aidBox2, 10.5, 30.0);
-//            aidBox1.addPath(path1);
-//
-//            // Getting distance and duration to aidBox2 from aidBox1
-//            System.out.println("Distance to aidBox2: " + aidBox1.getDistance(aidBox2));
-//            System.out.println("Duration to aidBox2: " + aidBox1.getDuration(aidBox2));
-
-            // Removing a container from aidBox1
-            aidBox1.removeContainer(container2);
-            System.out.println("Container  removed from aidBox1.");
-
-            // Displaying containers of aidBox1 after removal
-            System.out.println("Containers in aidBox1 after removal:");
-            for (Container container : aidBox1.getContainers()) {
-                System.out.println(container);
-            }
-
-        } catch (ContainerException | AidBoxException e) {
-            System.err.println(e.getMessage());
+        } catch (ContainerException e) {
+            e.printStackTrace();
         }
        
         

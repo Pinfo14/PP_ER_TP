@@ -9,6 +9,9 @@ import com.estg.core.Institution;
 import com.estg.pickingManagement.Route;
 import com.estg.pickingManagement.RouteGenerator;
 import com.estg.pickingManagement.Vehicle;
+import com.estg.pickingManagement.exceptions.RouteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +28,14 @@ public class RouteGeneratorImp implements RouteGenerator {
         for (int i = 0; i < vehicles.length; i++) {
             routes[i] = new RouteImp(vehicles[i]);
         }
+  
+    for(int i = 0; i<aidBoxes.length;i++){
+            try {
+                routes[i].addAidBox(aidBoxes[i]);
+            } catch (RouteException ex) {
+                Logger.getLogger(RouteGeneratorImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
 
         return routes;
     }
