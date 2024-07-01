@@ -28,5 +28,10 @@ public class ContainerTypeImp implements ContainerType {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "ContainerTypeImp{" + "name=" + name + '}';
+    }
+
     
 }

@@ -13,7 +13,18 @@ import java.time.LocalDateTime;
  * @author emanu
  */
 public class PickingMapImp implements PickingMap {
+    
+    private LocalDateTime date;
+    private Route[] routes;
+    private int numRoutes;
 
+    
+    public PickingMapImp (Route[] routes, LocalDateTime date) {
+       this.date=date;
+        this.routes = routes;
+        this.numRoutes = routes.length;
+    }
+    
     @Override
     public LocalDateTime getDate() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

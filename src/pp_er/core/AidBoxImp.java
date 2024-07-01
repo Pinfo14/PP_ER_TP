@@ -157,6 +157,12 @@ public class AidBoxImp implements AidBox {
         this.paths = temp;
     }
     
+      public AidBox clone() throws CloneNotSupportedException {
+        AidBoxImp clone = (AidBoxImp) super.clone();
+        clone.containers = this.getContainers();
+
+        return clone;
+    }
     
     //EXECPIONS fazer
       public void addPath(Path path) {
@@ -173,6 +179,12 @@ public class AidBoxImp implements AidBox {
         }
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "AidBoxImp{" + "code=" + code + ", zone=" + zone + ", paths=" + paths + ", pathCount=" + pathCount + ", containers=" + containers + ", containersCount=" + containersCount + '}';
+    }
+    
     
 
 }

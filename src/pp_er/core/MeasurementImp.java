@@ -61,5 +61,10 @@ public class MeasurementImp implements Measurement {
         final MeasurementImp other = (MeasurementImp) obj;
         return Objects.equals(this.date, other.date);
     }
+
+    @Override
+    public String toString() {
+        return "MeasurementImp{" + "date=" + date + ", value=" + value + '}';
+    }
     
 }

@@ -137,4 +137,9 @@ public class ContainerImp implements Container {
         return Objects.equals(this.type, other.type);
     }
 
+    @Override
+    public String toString() {
+        return "ContainerImp{" + "code=" + code + ", capacity=" + capacity + ", type=" + type + ", measurements=" + measurements + ", measurementsCount=" + measurementsCount + '}';
+    }
+
 }

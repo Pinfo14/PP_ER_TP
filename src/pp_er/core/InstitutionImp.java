@@ -246,4 +246,10 @@ public class InstitutionImp implements Institution {
     public PickingMap getCurrentPickingMap() throws PickingMapException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public String toString() {
+        return "InstitutionImp{" + "name=" + name + ", aidBoxes=" + aidBoxes + ", aidBoxCount=" + aidBoxCount + ", vehicles=" + vehicles + ", vehicleCount=" + vehicleCount + ", pickingMaps=" + pickingMaps + ", pickingMapCount=" + pickingMapCount + '}';
+    }
+    
 }
