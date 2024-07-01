@@ -6,6 +6,7 @@ package pp_er.pickingManagement;
 
 
 import com.estg.core.ContainerType;
+import java.util.Objects;
 
 public class VehicleCargo {
     
@@ -29,4 +30,28 @@ public class VehicleCargo {
     public void setCapacity(double capacity) {
         this.capacity = capacity;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.containerType);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VehicleCargo other = (VehicleCargo) obj;
+        return Objects.equals(this.containerType, other.containerType);
+    }
+    
+    
 }

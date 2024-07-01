@@ -48,6 +48,12 @@ public class AidBoxImp implements AidBox {
         return this.zone;
     }
 
+    
+    public int getNumberContainers(){
+        return this.containersCount;
+    }
+    
+    
  @Override
     public double getDistance(AidBox aidbox) throws AidBoxException {
         for (int i = 0; i < this.pathCount; i++) {

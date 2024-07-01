@@ -17,13 +17,13 @@ public class VehicleImp implements Vehicle, Cloneable {
 
     private String code;
     private VehicleCargo[] vehiclecargo;
-    private double capacity;
     private VehicleState state;
     
     
-    public VehicleImp (String code, double capacity){
-        this.capacity = capacity;
+    public VehicleImp (String code,VehicleCargo[] vehiclecargo){
         this.code = code;
+        this.state = VehicleState.ENABLE;
+        this.vehiclecargo = vehiclecargo;
     }
     
     @Override
@@ -33,7 +33,11 @@ public class VehicleImp implements Vehicle, Cloneable {
 
     @Override
     public double getCapacity(ContainerType ct) {
-        return this.capacity;
+        for(int i=0; i<this.vehiclecargo.length;i++){
+            this.vehiclecargo[i].equals(ct);
+             return this.vehiclecargo[i].getCapacity();
+        }
+       return -1;
     }
     
     public void setState(VehicleState state){

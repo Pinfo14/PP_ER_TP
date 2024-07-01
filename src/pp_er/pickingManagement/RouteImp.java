@@ -5,6 +5,7 @@
 package pp_er.pickingManagement;
 
 import com.estg.core.AidBox;
+import com.estg.core.ContainerType;
 import com.estg.core.exceptions.AidBoxException;
 import com.estg.pickingManagement.Report;
 import com.estg.pickingManagement.Route;
@@ -14,10 +15,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pp_er.core.AidBoxImp;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
+
 public class RouteImp implements Route {
 
     private static final int INIT_AIDBOX_SIZE = 5;
@@ -43,6 +46,17 @@ public class RouteImp implements Route {
         this.aidBoxes = temp;
     }
 
+    private boolean verifyType(AidBox aidbox) {
+        boolean verify = false;
+        int totalCont = ((AidBoxImp)aidbox).getNumberContainers();
+       for(int i = 0; i>totalCont; i++){
+           if(this.vehicle.getCapacity(aidbox.getContainers()[i].getType()) != 0){
+               verify = true;
+           }
+       }
+       return verify;
+    }
+
     @Override
     public void addAidBox(AidBox aidbox) throws RouteException {
         if (aidbox == null) {
@@ -56,13 +70,13 @@ public class RouteImp implements Route {
         if (this.aidBoxes.length == this.aidBoxCount) {
             expandAidBoxes();
         }
-//         if (aidbox.getContainer(this.vehicle.getCapacity(ct)) == null) {
-//            throw new RouteException("Parameter aid box is incompatible with the vehicle's supply type.");
-//        }
+        if (!verifyType(aidbox)) {
+            throw new RouteException("AidBox is incopatible");
+        }
 
         this.aidBoxes[this.aidBoxCount++] = aidbox;
     }
- 
+
     private int findAidBox(AidBox aidbox) {
         for (int i = 0; i < this.aidBoxCount; i++) {
             if (this.aidBoxes[i].equals(aidbox)) {
@@ -115,7 +129,9 @@ public class RouteImp implements Route {
         if (containsAidBox(aidbox1)) {
             throw new RouteException("AidBox is already  in route");
         }
-        //verificar se e do msm tipo 
+        if (!verifyType(aidbox1)) {
+            throw new RouteException("AidBox is incopatible");
+        }
         this.aidBoxes[index] = aidbox1;
 
     }
@@ -135,6 +151,10 @@ public class RouteImp implements Route {
         if (containsAidBox(aidbox1)) {
             throw new RouteException("AidBox is already  in route");
         }
+        if (!verifyType(aidbox1)) {
+            throw new RouteException("AidBox is incopatible");
+        }
+
         if (this.aidBoxCount == this.aidBoxes.length) {
             expandAidBoxes();
         }
@@ -157,7 +177,7 @@ public class RouteImp implements Route {
                 try {
                     copy[i] = temp.clone();
                 } catch (CloneNotSupportedException e) {
-                  //logger.log(Level.FINEST, e.getMessage(),e);
+                    //logger.log(Level.FINEST, e.getMessage(),e);
                 }
             }
         }
@@ -172,29 +192,29 @@ public class RouteImp implements Route {
 
     @Override
     public double getTotalDistance() {
-        double distance=0;
-        for(int i =0; i<this.aidBoxCount; i++){
+        double distance = 0;
+        for (int i = 0; i < this.aidBoxCount; i++) {
             try {
-                distance += this.aidBoxes[i].getDistance(this.aidBoxes[i+1]);
+                distance += this.aidBoxes[i].getDistance(this.aidBoxes[i + 1]);
             } catch (AidBoxException ex) {
                 Logger.getLogger(RouteImp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return distance;
     }
 
     @Override
     public double getTotalDuration() {
-          double duration=0;
-        for(int i =0; i<this.aidBoxCount; i++){
+        double duration = 0;
+        for (int i = 0; i < this.aidBoxCount; i++) {
             try {
-                duration += this.aidBoxes[i].getDuration(this.aidBoxes[i+1]);
+                duration += this.aidBoxes[i].getDuration(this.aidBoxes[i + 1]);
             } catch (AidBoxException ex) {
                 Logger.getLogger(RouteImp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return duration;
     }
 
@@ -203,8 +223,4 @@ public class RouteImp implements Route {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
-    
-    
-     
 }

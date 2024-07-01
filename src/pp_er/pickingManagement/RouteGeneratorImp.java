@@ -13,31 +13,17 @@ import com.estg.pickingManagement.exceptions.RouteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
+
 public class RouteGeneratorImp implements RouteGenerator {
 
     @Override
     public Route[] generateRoutes(Institution instn) {
-        Vehicle[] vehicles = instn.getVehicles();
-        AidBox[] aidBoxes = instn.getAidBoxes();
-        Route[] routes = new Route[vehicles.length];
-
-        for (int i = 0; i < vehicles.length; i++) {
-            routes[i] = new RouteImp(vehicles[i]);
-        }
-  
-    for(int i = 0; i<aidBoxes.length;i++){
-            try {
-                routes[i].addAidBox(aidBoxes[i]);
-            } catch (RouteException ex) {
-                Logger.getLogger(RouteGeneratorImp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    }
-
-        return routes;
+       
     }
 
 }

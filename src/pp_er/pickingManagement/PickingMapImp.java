@@ -8,10 +8,12 @@ import com.estg.pickingManagement.PickingMap;
 import com.estg.pickingManagement.Route;
 import java.time.LocalDateTime;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
+
 public class PickingMapImp implements PickingMap {
     
     private LocalDateTime date;
