@@ -4,10 +4,25 @@
  */
 package pp_er.pickingManagement;
 
-/**
- *
- * @author emanu
- */
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
+*/
 public enum VehicleState {
     ENABLE,DISABLE;
+
+    @Override
+    public String toString() {
+      switch(this){
+          case ENABLE:
+              return "Enable";
+      case DISABLE:
+              return "Disable";
+      }
+      
+      return null;
+    }
+    
+    
 }
