@@ -62,7 +62,7 @@ public class RouteGeneratorImp implements RouteGenerator {
 
             for (Container container : containers) {
                 if (container.getType().equals(capTrack.getType())) {
-                    while (((ContainerImp) container).getLastMeasurement().getValue() / container.getCapacity() >= 0.8) {
+                    if (((ContainerImp) container).getLastMeasurement().getValue() / container.getCapacity() >= 0.8) {
                         capTrack.setCapacity(capTrack.getEmptyContainers() - 1);
                         if (capTrack.getEmptyContainers() < 0) {
                             return false;

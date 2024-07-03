@@ -42,7 +42,7 @@ public class demo1 {
             // Create Measurements
             Measurement waterMeasurement1 = new MeasurementImp(LocalDateTime.now(), 30.0);
             Measurement waterMeasurement2 = new MeasurementImp(LocalDateTime.now().plusDays(1), 35.0);
-            Measurement foodMeasurement = new MeasurementImp(LocalDateTime.now(), 20.0);
+            Measurement foodMeasurement = new MeasurementImp(LocalDateTime.now(), 40.0);
 
             // Add Measurements to Containers
             waterContainer.addMeasurement(waterMeasurement1);
@@ -70,8 +70,8 @@ public class demo1 {
             aidBox2.addPath(path2to3);
 
             // Create VehicleCargo
-            VehicleCargo waterCargo = new VehicleCargo(waterType, 10);
-            VehicleCargo foodCargo = new VehicleCargo(foodType, 5);
+            VehicleCargo waterCargo = new VehicleCargo(waterType, 100);
+            VehicleCargo foodCargo = new VehicleCargo(foodType, 100);
 
             // Create Vehicles
             Vehicle vehicle1 = new VehicleImp("V1", new VehicleCargo[]{waterCargo, foodCargo});
