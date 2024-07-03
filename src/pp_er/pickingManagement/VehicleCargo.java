@@ -11,9 +11,9 @@ import java.util.Objects;
 public class VehicleCargo {
     
     private ContainerType containerType;
-    private double capacity;
+    private int capacity;
 
-    public VehicleCargo(ContainerType containerType, double capacity) {
+    public VehicleCargo(ContainerType containerType, int capacity) {
         this.containerType = containerType;
         this.capacity = capacity;
     }
@@ -23,11 +23,11 @@ public class VehicleCargo {
     }
 
 
-    public double getCapacity() {
-        return capacity;
+    public int getCapacity() {
+        return this.capacity;
     }
 
-    public void setCapacity(double capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 

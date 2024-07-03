@@ -125,8 +125,8 @@ public class InstitutionImp implements Institution {
             throw new VehicleException("Vehicle is null");
         }
 
-        if (findVehicle(vhcl) == -1) {
-            throw new VehicleException("Vehicle not found");
+        if (findVehicle(vhcl) != -1) {
+            throw new VehicleException("Vehicle allready exist");
         }
 
         if (this.vehicleCount == this.vehicles.length) {

@@ -93,6 +93,8 @@ public class ContainerImp implements Container {
         this.measurements[this.measurementsCount++] = msrmnt;
         return true;
     }
+    
+    
 
     private void expandMeasurements() {
         Measurement[] temp = new Measurement[this.measurementsCount * GROWTH];
@@ -102,6 +104,10 @@ public class ContainerImp implements Container {
         }
 
         this.measurements = temp;
+    }
+    
+    public Measurement getLastMeasurement(){
+        return this.measurements[this.measurementsCount-1];
     }
 
     public Container clone() throws CloneNotSupportedException {

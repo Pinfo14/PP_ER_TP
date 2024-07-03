@@ -29,12 +29,12 @@ public class PickingMapImp implements PickingMap {
     
     @Override
     public LocalDateTime getDate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return this.date;
     }
 
     @Override
     public Route[] getRoutes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return this.routes;
     }
     
 }

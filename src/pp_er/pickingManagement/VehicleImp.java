@@ -47,6 +47,10 @@ public class VehicleImp implements Vehicle, Cloneable {
     public VehicleState getState(){
         return this.state;
     }
+    
+    public VehicleCargo[] getCargo(){
+        return this.vehiclecargo;
+    }
 
       @Override
     public Vehicle clone() throws CloneNotSupportedException {

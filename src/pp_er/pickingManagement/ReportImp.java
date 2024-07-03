@@ -13,39 +13,60 @@ import java.time.LocalDateTime;
  */
 public class ReportImp implements Report {
 
+    private LocalDateTime date;
+    private int freeVehicles;
+    private int usedVehicles;
+    private int containersPicked;
+    private int containersNonPicked;
+    private double totDuration;
+    private double totDistance;
+
+    public ReportImp(LocalDateTime date, int freeVehicles, int usedVehicles, int containersPicked, int containersNonPicked, double totDuration, double totDistance) {
+        this.date = date;
+        this.freeVehicles = freeVehicles;
+        this.usedVehicles = usedVehicles;
+        this.containersPicked = containersPicked;
+        this.containersNonPicked = containersNonPicked;
+        this.totDuration = totDuration;
+        this.totDistance = totDistance;
+    }
+    
+    
+    
+    
     @Override
     public int getUsedVehicles() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return this.usedVehicles;
     }
 
     @Override
     public int getPickedContainers() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return this.containersPicked;
     }
 
     @Override
     public double getTotalDistance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.totDistance;
     }
 
     @Override
     public double getTotalDuration() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return this.totDuration;
     }
 
     @Override
     public int getNonPickedContainers() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.containersNonPicked;
     }
 
     @Override
     public int getNotUsedVehicles() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return this.freeVehicles;
     }
 
     @Override
     public LocalDateTime getDate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return this.date;
     }
     
 }

@@ -50,7 +50,7 @@ public class RouteImp implements Route {
         boolean verify = false;
         int totalCont = ((AidBoxImp)aidbox).getNumberContainers();
        for(int i = 0; i>totalCont; i++){
-           if(this.vehicle.getCapacity(aidbox.getContainers()[i].getType()) != 0){
+           if(this.vehicle.getCapacity(aidbox.getContainers()[i].getType()) > 0){
                verify = true;
            }
        }
@@ -197,7 +197,7 @@ public class RouteImp implements Route {
             try {
                 distance += this.aidBoxes[i].getDistance(this.aidBoxes[i + 1]);
             } catch (AidBoxException ex) {
-                Logger.getLogger(RouteImp.class.getName()).log(Level.SEVERE, null, ex);
+               // Logger.getLogger(RouteImp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -211,16 +211,42 @@ public class RouteImp implements Route {
             try {
                 duration += this.aidBoxes[i].getDuration(this.aidBoxes[i + 1]);
             } catch (AidBoxException ex) {
-                Logger.getLogger(RouteImp.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(RouteImp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         return duration;
     }
 
+    
+    
+       public void rearrengeAidBoxes() {
+        for (int i = 0; i < this.aidBoxCount - 1; i++) {
+            for (int j = 0; j < this.aidBoxCount - i - 1; j++) {
+                try {
+                    if (this.aidBoxes[j].getDistance(this.aidBoxes[j + 1]) > this.aidBoxes[j + 1].getDistance(this.aidBoxes[j])) {
+                        AidBox temp = this.aidBoxes[j];
+                        this.aidBoxes[j] = this.aidBoxes[j + 1];
+                        this.aidBoxes[j + 1] = temp;
+                    }
+                } catch (AidBoxException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     @Override
     public Report getReport() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public String toString() {
+        return "RouteImp{" + "vehicle=" + vehicle + ", aidBoxes=" + aidBoxes + ", aidBoxCount=" + aidBoxCount + '}';
+    }
+       
+    
+    
 
 }
