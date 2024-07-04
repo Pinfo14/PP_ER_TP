@@ -63,14 +63,12 @@ public class AidBoxImp implements AidBox {
             //System.err.println("AidBox in path: " + this.paths[i].getAidBox());
             if (this.paths[i].getAidBox().equals(aidbox)) {
                 distance= this.paths[i].getDistance();
-              
                  return distance;
             }
-           
         }
-        
        // System.err.println("AidBox not found: " + aidbox);
-        throw new AidBoxException("Path to AidBox not found");
+        //throw new AidBoxException("Path to AidBox not found");
+        return -1;
     }
     @Override
     public double getDuration(AidBox aidbox) throws AidBoxException {

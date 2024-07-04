@@ -10,15 +10,16 @@ import com.estg.io.Importer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**
- *
- * @author emanu
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
  */
 public class ImporterImp implements Importer {
 
     @Override
     public void importData(Institution instn) throws FileNotFoundException, IOException, InstitutionException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
     
 }

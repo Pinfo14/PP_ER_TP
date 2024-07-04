@@ -23,9 +23,10 @@ import pp_er.pickingManagement.RouteImp;
 import pp_er.pickingManagement.VehicleCargo;
 import pp_er.pickingManagement.VehicleImp;
 
-/**
- *
- * @author emanu
+/* 
+* Nome: Emanuel Jose Teixeira Pinto
+* Número: 8230371
+* Turma: Turma 4
  */
 public class demo1 {
   public static void main(String[] args) throws RouteException {
@@ -61,15 +62,27 @@ public class demo1 {
             aidBox3.addContainer(foodContainer);
 
             // Create Paths between AidBoxes
-            Path path1to2 = new Path(aidBox2, 10.0, 5.0);
-            Path path2to3 = new Path(aidBox3, 15.0, 10.0);
-            Path path1to3 = new Path(aidBox3, 20.0, 15.0);
-            Path path2to1 = new Path(aidBox3,40.0, 25.0);
+            Path path1to2 = new Path(aidBox2, 80.0, 40.0);
+            Path path2to3 = new Path(aidBox3, 10.0, 10.0);
+            Path path1to3 = new Path(aidBox3,2.0, 5.0);
+            Path path2to1 = new Path(aidBox3,50.0, 25.0);
+            Path path3to1 = new Path(aidBox3,8.0, 5.0);
+            Path path3to2 = new Path(aidBox3,10.0, 2.0);
+            Path path3to3 = new Path(aidBox3,0.0, 0.0);
+            Path path2to2 = new Path(aidBox3,0, 0.0);
+            Path path1to1 = new Path(aidBox3,0, 0.0);
 
             aidBox1.addPath(path1to2);
             aidBox1.addPath(path1to3);
             aidBox2.addPath(path2to3);
             aidBox2.addPath(path2to1);
+            aidBox3.addPath(path3to1);
+            aidBox3.addPath(path3to2);
+            aidBox1.addPath(path1to1);
+            aidBox2.addPath(path2to2);
+            aidBox3.addPath(path3to3);
+            
+            
 
             // Create VehicleCargo
             VehicleCargo waterCargo = new VehicleCargo(waterType, 100);
@@ -98,9 +111,6 @@ public class demo1 {
                     System.out.println("  AidBox: " + aidBox.getCode() + " in " + aidBox.getZone());
                 }
             }
-
-          
-
         } catch (Exception e) {
             e.printStackTrace();
         }

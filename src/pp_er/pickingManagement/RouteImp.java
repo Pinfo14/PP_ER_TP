@@ -232,7 +232,6 @@ public class RouteImp implements Route {
                     this.aidBoxes[j + 1] = temp;
                 }
             } catch (AidBoxException e) {
-
                e.printStackTrace();
             }
         }
