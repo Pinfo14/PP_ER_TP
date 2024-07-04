@@ -12,11 +12,19 @@ import com.estg.pickingManagement.Route;
 import com.estg.pickingManagement.RouteGenerator;
 import com.estg.pickingManagement.Vehicle;
 import com.estg.pickingManagement.exceptions.RouteException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import pp_er.pickingManagement.ReportImp;
 import pp_er.pickingManagement.RouteGeneratorImp;
 import pp_er.pickingManagement.RouteImp;
@@ -28,9 +36,19 @@ import pp_er.pickingManagement.VehicleImp;
 * Número: 8230371
 * Turma: Turma 4
  */
-public class demo1 {
-  public static void main(String[] args) throws RouteException {
 
+public class demo1 {
+  public static void main(String[] args) throws RouteException, FileNotFoundException, IOException, ParseException {
+//files 
+            JSONParser parser = new JSONParser();
+            FileReader reader = new FileReader("../files/types.json");
+            
+            Object obj= parser.parse(reader);
+           JSONObject jobj= (JSONObject)obj;
+           
+          JSONArray array =  (JSONArray)jobj.get("types");
+          
+          System.out.println("types" + array);
         try {
             // Create ContainerTypes
             ContainerType waterType = new ContainerTypeImp("Water");
