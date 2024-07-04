@@ -47,14 +47,14 @@ public class RouteImp implements Route {
     }
 
     private boolean verifyType(AidBox aidbox) {
-        boolean verify = false;
+      
         int totalCont = ((AidBoxImp)aidbox).getNumberContainers();
-       for(int i = 0; i>totalCont; i++){
+       for(int i = 0; i<totalCont; i++){
            if(this.vehicle.getCapacity(aidbox.getContainers()[i].getType()) > 0){
-               verify = true;
+               return true;
            }
        }
-       return verify;
+       return false;
     }
 
     @Override
@@ -220,21 +220,23 @@ public class RouteImp implements Route {
 
     
     
-       public void rearrengeAidBoxes() {
-        for (int i = 0; i < this.aidBoxCount - 1; i++) {
-            for (int j = 0; j < this.aidBoxCount - i - 1; j++) {
-                try {
-                    if (this.aidBoxes[j].getDistance(this.aidBoxes[j + 1]) > this.aidBoxes[j + 1].getDistance(this.aidBoxes[j])) {
-                        AidBox temp = this.aidBoxes[j];
-                        this.aidBoxes[j] = this.aidBoxes[j + 1];
-                        this.aidBoxes[j + 1] = temp;
-                    }
-                } catch (AidBoxException e) {
-                    e.printStackTrace();
+    public void rearrengeAidBoxes() {
+    for (int i = 0; i < this.aidBoxCount - 1; i++) {
+        for (int j = 0; j < this.aidBoxCount - i - 1; j++) {
+            try {
+                double distance1 = this.aidBoxes[j].getDistance(this.aidBoxes[j + 1]);
+                double distance2 = this.aidBoxes[j + 1].getDistance(this.aidBoxes[j]);
+                if (distance1 > distance2) {
+                    AidBox temp = this.aidBoxes[j];
+                    this.aidBoxes[j] = this.aidBoxes[j + 1];
+                    this.aidBoxes[j + 1] = temp;
                 }
+            } catch (AidBoxException e) {
+                e.printStackTrace();
             }
         }
     }
+}
 
     @Override
     public Report getReport() {

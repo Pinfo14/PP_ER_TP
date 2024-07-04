@@ -9,13 +9,14 @@ import com.estg.core.Container;
 import com.estg.core.ContainerType;
 import com.estg.core.exceptions.AidBoxException;
 import com.estg.core.exceptions.ContainerException;
+import java.util.Objects;
+import pp_er.exepcions.PathExeption;
 
 /* 
 * Nome: Emanuel Jose Teixeira Pinto
 * Número: 8230371
 * Turma: Turma 4
-*/
-
+ */
 public class AidBoxImp implements AidBox {
 
     public static final int INIT_CONTAINER_SIZE = 5;
@@ -48,26 +49,27 @@ public class AidBoxImp implements AidBox {
         return this.zone;
     }
 
-    
-    public int getNumberContainers(){
+    public int getNumberContainers() {
         return this.containersCount;
-    }
-    
-    
- @Override
-    public double getDistance(AidBox aidbox) throws AidBoxException {
-        for (int i = 0; i < this.pathCount; i++) {
-            if (this.paths[i].getAidBoxCode().equals(aidbox.getCode())) {
-                return this.paths[i].getDistance();
-            }
-        }
-        throw new AidBoxException("Path to AidBox not found");
     }
 
     @Override
+    public double getDistance(AidBox aidbox) throws AidBoxException {
+        System.err.println("Finding distance for: " + aidbox);
+        for (int i = 0; i < this.pathCount; i++) {
+            System.err.println("Checking path: " + this.paths[i]);
+            System.err.println("AidBox in path: " + this.paths[i].getAidBox());
+            if (this.paths[i].getAidBox().equals(aidbox)) {
+                return this.paths[i].getDistance();
+            }
+        }
+        System.err.println("AidBox not found: " + aidbox);
+        throw new AidBoxException("Path to AidBox not found");
+    }
+    @Override
     public double getDuration(AidBox aidbox) throws AidBoxException {
         for (int i = 0; i < this.pathCount; i++) {
-            if (this.paths[i].getAidBoxCode().equals(aidbox.getCode())) {
+            if (this.paths[i].getAidBox().equals(aidbox)) {
                 return this.paths[i].getDuration();
             }
         }
@@ -97,12 +99,11 @@ public class AidBoxImp implements AidBox {
         if (this.containersCount == this.containers.length) {
             expandContainers();
         }
-       
+
         this.containers[this.containersCount++] = cntnr;
 
         return true;
     }
- 
 
     @Override
     public Container getContainer(ContainerType ct) {
@@ -114,7 +115,7 @@ public class AidBoxImp implements AidBox {
         return null;
     }
 
-     @Override
+    @Override
     public Container[] getContainers() {
         Container[] result = new Container[this.containersCount];
         for (int i = 0; i < this.containersCount; i++) {
@@ -123,38 +124,37 @@ public class AidBoxImp implements AidBox {
         return result;
     }
 
-    private int found(Container cntnr){
-        for(int i=0;i<this.containersCount;i++){
-            if(this.containers[i].equals(cntnr)){
+    private int found(Container cntnr) {
+        for (int i = 0; i < this.containersCount; i++) {
+            if (this.containers[i].equals(cntnr)) {
                 return i;
             }
         }
         return -1;
     }
-    
-    
+
     @Override
     public void removeContainer(Container cntnr) throws AidBoxException {
-        
+
         int index = found(cntnr);
-        
+
         if (cntnr == null) {
             throw new AidBoxException("Container is null");
         }
-        
-        if(index == -1){
-             throw new AidBoxException("Container doesnt exist");
+
+        if (index == -1) {
+            throw new AidBoxException("Container doesnt exist");
         }
-        
-        for (int i = index; i<this.containersCount-1;i++){
-             this.containers[i] = this.containers[i + 1];
+
+        for (int i = index; i < this.containersCount - 1; i++) {
+            this.containers[i] = this.containers[i + 1];
         }
-        
-         this.containers[--this.containersCount] = null; 
+
+        this.containers[--this.containersCount] = null;
 
     }
-    
-    private void expandPaths(){
+
+    private void expandPaths() {
         Path[] temp = new Path[this.pathCount * GROWTH];
 
         for (int i = 0; i < this.pathCount; i++) {
@@ -163,16 +163,21 @@ public class AidBoxImp implements AidBox {
 
         this.paths = temp;
     }
-    
-      public AidBox clone() throws CloneNotSupportedException {
+
+    public AidBox clone() throws CloneNotSupportedException {
         AidBoxImp clone = (AidBoxImp) super.clone();
         clone.containers = this.getContainers();
 
         return clone;
     }
-    
+
     //EXECPIONS fazer
-      public void addPath(Path path) {
+    public void addPath(Path path) throws PathExeption {
+
+        if (path == null) {
+            throw new PathExeption("path is null");
+        }
+
         if (this.pathCount == this.paths.length) {
             expandPaths();
         }
@@ -188,10 +193,56 @@ public class AidBoxImp implements AidBox {
     }
 
     @Override
-    public String toString() {
-        return "AidBoxImp{" + "code=" + code + ", zone=" + zone + ", paths=" + paths + ", pathCount=" + pathCount + ", containers=" + containers + ", containersCount=" + containersCount + '}';
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.code);
+        return hash;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AidBoxImp other = (AidBoxImp) obj;
+        return Objects.equals(this.code, other.code);
+    }
+
+    @Override
+    public String toString() {
+
+        String s = "AidBoxImp{";
+        s += "code='" + code + '\'';
+        s += ", zone='" + zone + '\'';
+        s += ", containersCount=" + containersCount;
+        s += ", containers=[";
+
+        for (int i = 0; i < containersCount; i++) {
+            s += containers[i];
+            if (i < containersCount - 1) {
+                s += ", ";
+            }
+        }
+
+        s += "], pathCount=" + pathCount;
+        s += ", paths=[";
+
+        for (int i = 0; i < pathCount; i++) {
+            s += paths[i];
+            if (i < pathCount - 1) {
+                s += ", ";
+            }
+        }
+
+        s += "]}";
+        return s;
+
+    }
 
 }

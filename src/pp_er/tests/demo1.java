@@ -64,10 +64,12 @@ public class demo1 {
             Path path1to2 = new Path(aidBox2, 10.0, 5.0);
             Path path2to3 = new Path(aidBox3, 15.0, 10.0);
             Path path1to3 = new Path(aidBox3, 20.0, 15.0);
+            Path path2to1 = new Path(aidBox3,40.0, 25.0);
 
             aidBox1.addPath(path1to2);
             aidBox1.addPath(path1to3);
             aidBox2.addPath(path2to3);
+            aidBox2.addPath(path2to1);
 
             // Create VehicleCargo
             VehicleCargo waterCargo = new VehicleCargo(waterType, 100);

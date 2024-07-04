@@ -34,8 +34,13 @@ public class Path {
         return this.duration;
     }
 
-    public AidBox getAidBoxCode() {
+    public AidBox getAidBox() {
         return this.aidbox;
     }
     
+    @Override
+public String toString() {
+    return "Path{aidBox=" + aidbox + ", distance=" + distance + ", duration=" + duration + "}";
+}
+
 }
