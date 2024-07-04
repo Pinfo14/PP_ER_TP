@@ -24,6 +24,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import pp_er.io.JsonReader;
 
 import pp_er.pickingManagement.ReportImp;
 import pp_er.pickingManagement.RouteGeneratorImp;
@@ -39,16 +40,14 @@ import pp_er.pickingManagement.VehicleImp;
 
 public class demo1 {
   public static void main(String[] args) throws RouteException, FileNotFoundException, IOException, ParseException {
-//files 
-            JSONParser parser = new JSONParser();
-            FileReader reader = new FileReader("../files/types.json");
-            
-            Object obj= parser.parse(reader);
-           JSONObject jobj= (JSONObject)obj;
-           
-          JSONArray array =  (JSONArray)jobj.get("types");
-          
-          System.out.println("types" + array);
+
+      JsonReader sRead = new JsonReader();
+//       sRead.readVehicles();
+       sRead.readTypes();
+//       sRead.readAidBoxes();
+//       sRead.readContainers();
+//       sRead.readDistances();
+//       sRead.readReadings();
         try {
             // Create ContainerTypes
             ContainerType waterType = new ContainerTypeImp("Water");
@@ -107,8 +106,12 @@ public class demo1 {
             VehicleCargo foodCargo = new VehicleCargo(foodType, 100);
 
             // Create Vehicles
-            Vehicle vehicle1 = new VehicleImp("V1", new VehicleCargo[]{waterCargo, foodCargo});
-            Vehicle vehicle2 = new VehicleImp("V2", new VehicleCargo[]{waterCargo});
+            Vehicle vehicle1 = new VehicleImp("V1" );
+            Vehicle vehicle2 = new VehicleImp("V2" );
+            ((VehicleImp)vehicle1).addCargo(waterCargo);
+            ((VehicleImp)vehicle1).addCargo(foodCargo);
+            ((VehicleImp)vehicle2).addCargo(waterCargo);
+            ((VehicleImp)vehicle2).addCargo(foodCargo);
 
             // Create Institution
             Institution institution = new InstitutionImp("My Institution");

@@ -6,23 +6,30 @@ package pp_er.pickingManagement;
 
 import com.estg.core.AidBox;
 import com.estg.core.Container;
-import com.estg.core.ContainerType;
 import com.estg.core.Institution;
 import com.estg.pickingManagement.Route;
 import com.estg.pickingManagement.RouteGenerator;
 import com.estg.pickingManagement.Vehicle;
 import com.estg.pickingManagement.exceptions.RouteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import pp_er.core.ContainerImp;
 
 /* 
 * Nome: Emanuel Jose Teixeira Pinto
 * Número: 8230371
-* Turma: Turma 4
+* Turma: LEIT4
+ */
+
+/**
+ * Implementation of the {@link RouteGenerator} interface for generating routes for vehicles in an institution.
  */
 public class RouteGeneratorImp implements RouteGenerator {
 
+    /**
+     * Generates routes for the vehicles in the given institution.
+     *
+     * @param instn the institution for which to generate routes
+     * @return an array of generated routes
+     */
     @Override
     public Route[] generateRoutes(Institution instn) {
 
@@ -38,17 +45,24 @@ public class RouteGeneratorImp implements RouteGenerator {
                     try {
                         routes[i].addAidBox(aidBox);
                     } catch (RouteException ex) {
-                       // Logger.getLogger(RouteGeneratorImp.class.getName()).log(Level.SEVERE, null, ex);
+                        // Logger.getLogger(RouteGeneratorImp.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
-             ((RouteImp)routes[i]).rearrengeAidBoxes();
+            ((RouteImp) routes[i]).rearrengeAidBoxes();
         }
 
         return routes;
     }
 
- private boolean validateAidBoxForVehicle(AidBox aidBox, Vehicle vehicle) {
+    /**
+     * Validates whether an aid box can be assigned to a vehicle based on container capacity and types.
+     *
+     * @param aidBox the aid box to validate
+     * @param vehicle the vehicle to validate against
+     * @return {@code true} if the aid box can be assigned to the vehicle, {@code false} otherwise
+     */
+    private boolean validateAidBoxForVehicle(AidBox aidBox, Vehicle vehicle) {
         if (aidBox == null || vehicle == null) {
             return false;
         }

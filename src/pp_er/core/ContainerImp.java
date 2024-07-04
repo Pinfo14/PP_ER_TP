@@ -14,7 +14,11 @@ import java.util.Objects;
 /* 
 * Nome: Emanuel Jose Teixeira Pinto
 * Número: 8230371
-* Turma: Turma 4
+* Turma: LEIT4
+ */
+
+/**
+ * Implementation of the {@link Container} interface representing a container with a code, capacity, type, and measurements.
  */
 public class ContainerImp implements Container {
 
@@ -27,7 +31,14 @@ public class ContainerImp implements Container {
     private Measurement[] measurements;
     private int measurementsCount;
 
-    public ContainerImp(String code, double capacity, ContainerType type) {
+    /**
+     * Constructs a new ContainerImp instance with the specified code, type, and capacity.
+     *
+     * @param code the code of the container
+     * @param type the type of items the container holds
+     * @param capacity the capacity of the container
+     */
+    public ContainerImp(String code, ContainerType type, double capacity) {
         this.code = code;
         this.capacity = capacity;
         this.type = type;
@@ -35,21 +46,42 @@ public class ContainerImp implements Container {
         this.measurementsCount = 0;
     }
 
+    /**
+     * Getter for the container's code.
+     *
+     * @return the code of the container
+     */
     @Override
     public String getCode() {
         return this.code;
     }
 
+    /**
+     * Getter for the container's capacity.
+     *
+     * @return the capacity of the container
+     */
     @Override
     public double getCapacity() {
         return this.capacity;
     }
 
+    /**
+     * Getter for the container's type.
+     *
+     * @return the type of the container
+     */
     @Override
     public ContainerType getType() {
         return this.type;
     }
 
+    /**
+     * Gets all measurements of the container.
+     *
+     * @return an array of measurements
+     */
+    @Override
     public Measurement[] getMeasurements() {
         Measurement[] result = new Measurement[this.measurementsCount];
         for (int i = 0; i < this.measurementsCount; i++) {
@@ -58,6 +90,12 @@ public class ContainerImp implements Container {
         return result;
     }
 
+    /**
+     * Gets all measurements of the container for a specific date.
+     *
+     * @param date the date to filter measurements by
+     * @return an array of measurements taken on the specified date
+     */
     @Override
     public Measurement[] getMeasurements(LocalDate date) {
         Measurement[] temp = new Measurement[this.measurementsCount];
@@ -74,6 +112,13 @@ public class ContainerImp implements Container {
         return result;
     }
 
+    /**
+     * Adds a new measurement to the container.
+     *
+     * @param msrmnt the measurement to add
+     * @return {@code true} if the measurement was added, {@code false} if a measurement for the same date already exists
+     * @throws MeasurementException if the measurement is null, has a value less than 0, or the date is before the last measurement date
+     */
     @Override
     public boolean addMeasurement(Measurement msrmnt) throws MeasurementException {
         if (msrmnt == null) {
@@ -93,27 +138,37 @@ public class ContainerImp implements Container {
         this.measurements[this.measurementsCount++] = msrmnt;
         return true;
     }
-    
-    
 
+    /**
+     * Expands the capacity of the measurements array.
+     */
     private void expandMeasurements() {
-        Measurement[] temp = new Measurement[this.measurementsCount * GROWTH];
-
+        Measurement[] temp = new Measurement[this.measurements.length * GROWTH];
         for (int i = 0; i < this.measurementsCount; i++) {
             temp[i] = this.measurements[i];
         }
-
         this.measurements = temp;
     }
-    
-    public Measurement getLastMeasurement(){
-        return this.measurements[this.measurementsCount-1];
+
+    /**
+     * Gets the last measurement of the container.
+     *
+     * @return the last measurement
+     */
+    public Measurement getLastMeasurement() {
+        return this.measurements[this.measurementsCount - 1];
     }
 
+    /**
+     * Creates and returns a deep copy of this container.
+     *
+     * @return a deep copy of this container
+     * @throws CloneNotSupportedException if the container cannot be cloned
+     */
+    @Override
     public Container clone() throws CloneNotSupportedException {
         ContainerImp clone = (ContainerImp) super.clone();
         clone.measurements = this.getMeasurements();
-
         return clone;
     }
 
@@ -147,5 +202,4 @@ public class ContainerImp implements Container {
     public String toString() {
         return "ContainerImp{" + "code=" + code + ", capacity=" + capacity + ", type=" + type + ", measurements=" + measurements + ", measurementsCount=" + measurementsCount + '}';
     }
-
 }
