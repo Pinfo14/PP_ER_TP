@@ -234,12 +234,33 @@ public class InstitutionImp implements Institution {
 
     @Override
     public PickingMap[] getPickingMaps() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.pickingMaps;
     }
 
     @Override
     public PickingMap[] getPickingMaps(LocalDateTime ldt, LocalDateTime ldt1) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         int count = 0;
+        for (PickingMap map : pickingMaps) {
+            if (map != null) {
+                LocalDateTime mapDate = map.getDate();
+                if (mapDate.isAfter(ldt) && mapDate.isBefore(ldt1)) {
+                    count++;
+                }
+            }
+        }
+
+        PickingMap[] result = new PickingMap[count];
+        int index = 0;
+        for (PickingMap map : pickingMaps) {
+            if (map != null) {
+                LocalDateTime mapDate = map.getDate();
+                if (mapDate.isAfter(ldt) && mapDate.isBefore(ldt1)) {
+                    result[index++] = map;
+                }
+            }
+        }
+
+        return result;
     }
 
     @Override
