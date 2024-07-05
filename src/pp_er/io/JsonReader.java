@@ -31,49 +31,70 @@ import pp_er.core.ContainerTypeImp;
 import pp_er.core.ContainerTypes;
 import pp_er.core.InstitutionImp;
 import pp_er.core.MeasurementImp;
+import pp_er.core.Path;
+import pp_er.exepcions.PathExeption;
 import pp_er.pickingManagement.VehicleCargo;
 import pp_er.pickingManagement.VehicleImp;
 
 /**
- *
- * @author emanu
+ * Nome: Emanuel Jose Teixeira Pinto
+ * Número: 8230371
+ * Turma: LEIT4
  */
 public class JsonReader {
- 
-     private JSONParser parser;
 
-  
+    private JSONParser parser;
+
+    /**
+     * Constructor for JsonReader initializes the JSONParser.
+     */
     public JsonReader() {
-        this.parser =  new JSONParser();
-    }
-    
-    public void readTypes(Institution instn) throws FileNotFoundException, IOException, ParseException{
-     FileReader reader = new FileReader("src/pp_er/files/types.json");
-    
-           Object obj= parser.parse(reader);
-           JSONObject jobj= (JSONObject)obj;
-           
-          JSONArray array =  (JSONArray)jobj.get("types");
-          ContainerTypes cts = new ContainerTypes();
-          
-          for(int i=0;i<array.size();i++){
-              String newType = (String)array.get(i);
-               ContainerType ct = new ContainerTypeImp(newType);
-               cts.addType(ct);
-               
-          }
-          ((InstitutionImp)instn).addContainerTypes(cts);
-
+        this.parser = new JSONParser();
     }
 
-    private AidBox[] getAidBoxesFrominst(Institution instn){
-        return instn.getAidBoxes();
+    /**
+     * Reads container types from a JSON file and adds them to the institution.
+     *
+     * @param instn the institution to add container types to
+     * @throws FileNotFoundException if the JSON file is not found
+     * @throws IOException           if an I/O error occurs
+     * @throws ParseException        if the JSON parsing fails
+     */
+    public void readTypes(Institution instn) throws FileNotFoundException, IOException, ParseException {
+        FileReader reader = new FileReader("src/pp_er/files/types.json");
+
+        Object obj = parser.parse(reader);
+        JSONObject jobj = (JSONObject) obj;
+
+        JSONArray array = (JSONArray) jobj.get("types");
+        ContainerTypes cts = new ContainerTypes();
+
+        for (int i = 0; i < array.size(); i++) {
+            String newType = (String) array.get(i);
+            ContainerType ct = new ContainerTypeImp(newType);
+            cts.addType(ct);
+        }
+        ((InstitutionImp) instn).addContainerTypes(cts);
     }
 
-    private Container[] getContainers(AidBox aidbox){    
+    /**
+     * Helper method to get containers from an aid box.
+     *
+     * @param aidbox the aid box to get containers from
+     * @return an array of containers
+     */
+    private Container[] getContainers(AidBox aidbox) {
         return aidbox.getContainers();
-}
+    }
 
+    /**
+     * Reads aid boxes from a JSON file and adds them to the institution.
+     *
+     * @param instn the institution to add aid boxes to
+     * @throws FileNotFoundException if the JSON file is not found
+     * @throws IOException           if an I/O error occurs
+     * @throws ParseException        if the JSON parsing fails
+     */
     public void readAidBoxes(Institution instn) throws FileNotFoundException, IOException, ParseException {
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader("src/pp_er/files/aidBoxes.json");
@@ -84,19 +105,21 @@ public class JsonReader {
             JSONObject aidBox = (JSONObject) obj;
             String code = (String) aidBox.get("code");
             JSONArray containers = (JSONArray) aidBox.get("containers");
+            AidBox newAidBox = new AidBoxImp(code);
 
-            for (Object containerCode : containers) {
-                String container = (String) containerCode;
-                AidBox aidBoxObj = new AidBoxImp(code); 
-                try {
-                    instn.addAidBox(aidBoxObj);
-                } catch (AidBoxException ex) {
-                    //Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            readContainers(containers, newAidBox);
+            readDistances(newAidBox);
         }
     }
-    
+
+    /**
+     * Reads vehicles from a JSON file and adds them to the institution.
+     *
+     * @param instn the institution to add vehicles to
+     * @throws FileNotFoundException if the JSON file is not found
+     * @throws IOException           if an I/O error occurs
+     * @throws ParseException        if the JSON parsing fails
+     */
     public void readVehicles(Institution instn) throws FileNotFoundException, IOException, ParseException {
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader("src/pp_er/files/vehicles.json");
@@ -108,96 +131,146 @@ public class JsonReader {
             String code = (String) vehicle.get("code");
             JSONObject capacities = (JSONObject) vehicle.get("capacity");
 
-            Vehicle vehicleObj = new VehicleImp(code); 
+            Vehicle vehicleObj = new VehicleImp(code);
             for (Object key : capacities.keySet()) {
                 String type = (String) key;
                 int capacity = ((Long) capacities.get(type)).intValue();
                 ContainerType containerType = new ContainerTypeImp(type);
                 VehicleCargo vehicleCargo = new VehicleCargo(containerType, capacity);
-                ((VehicleImp)vehicleObj).addCargo(vehicleCargo);
+                ((VehicleImp) vehicleObj).addCargo(vehicleCargo);
             }
             try {
                 instn.addVehicle(vehicleObj);
             } catch (VehicleException ex) {
-                Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
+                // Handle the exception as needed
             }
         }
     }
 
-    public void readContainers(Institution instn) throws FileNotFoundException, IOException, ParseException {
+    /**
+     * Reads containers from a JSON file and adds them to the specified AidBox.
+     *
+     * @param containersArray the array of containers to update with readings
+     * @param aidBox the AidBox to add containers to
+     * @throws FileNotFoundException if the JSON file is not found
+     * @throws IOException           if an I/O error occurs
+     * @throws ParseException        if the JSON parsing fails
+     */
+    public void readContainers(JSONArray containersArray, AidBox aidBox) throws FileNotFoundException, IOException, ParseException {
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader("src/pp_er/files/containers.json");
-            AidBox[] aidboxes = getAidBoxesFrominst(instn);
         JSONArray array = (JSONArray) parser.parse(reader);
 
-        for (Object obj : array) {
+        for (Object obj : containersArray) {
             JSONObject container = (JSONObject) obj;
-            String code = (String) container.get("code");
-            int capacity = ((Long) container.get("capacity")).intValue();
-            String type = (String) container.get("type");
-            ContainerType containerType = new ContainerTypeImp(type);
-            Container containerObj = new ContainerImp(code, containerType,capacity); 
-            for(AidBox aidbox: aidboxes){
-                try {
-                    aidbox.addContainer(containerObj);
-                } catch (ContainerException ex) {
-                   // Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
+            String containerCode = (String) container.get("code");
+
+            for (Object objCont : array) {
+                JSONObject containerPrime = (JSONObject) objCont;
+                String code = (String) containerPrime.get("code");
+
+                if (containerCode.equals(code)) {
+                    int capacity = ((Long) containerPrime.get("capacity")).intValue();
+                    String type = (String) containerPrime.get("type");
+                    ContainerType containerType = new ContainerTypeImp(type);
+                    Container containerObj = new ContainerImp(code, containerType, capacity);
+
+                    try {
+                        aidBox.addContainer(containerObj);
+                    } catch (ContainerException ex) {
+                        ex.printStackTrace();
+                    }
+                    break;
                 }
             }
-          
         }
     }
 
-     public void readReadings(Institution instn) throws FileNotFoundException, IOException, ParseException {
+    /**
+     * Reads readings from a JSON file and adds measurements to the appropriate containers.
+     *
+     * @param containersArray the array of containers to update with readings
+     * @param istn the institution to update with readings
+     * @throws FileNotFoundException if the JSON file is not found
+     * @throws IOException           if an I/O error occurs
+     * @throws ParseException        if the JSON parsing fails
+     */
+    public void readReadings(JSONArray containersArray, Institution istn) throws FileNotFoundException, IOException, ParseException {
         JSONParser parser = new JSONParser();
         FileReader reader = new FileReader("src/pp_er/files/readings.json");
- AidBox[] aidboxes = getAidBoxesFrominst(instn);
         JSONArray array = (JSONArray) parser.parse(reader);
-Container [] containers;
+
         for (Object obj : array) {
             JSONObject reading = (JSONObject) obj;
             String containerCode = (String) reading.get("contentor");
-            LocalDateTime date = LocalDateTime.parse((String) reading.get("data"));
             int value = ((Long) reading.get("valor")).intValue();
-            Measurement measurement = new MeasurementImp(date, value); // Assuming MeasurementImp is an implementation of Measurement
-           for(AidBox aidbox:aidboxes ){
-                containers = getContainers(aidbox);
-                for(Container cntr: containers){
+            LocalDateTime date = LocalDateTime.parse((String) reading.get("data"));
+            Measurement measurement = new MeasurementImp(date, value);
+            for (Object container : containersArray) {
+                JSONObject containerJson = (JSONObject) container;
+                String containerJsonCode = (String) containerJson.get("code");
+
+                if (containerCode.equals(containerJsonCode)) {
+                    // Assuming getContainerFromJson is a method to get a Container object from a JSONObject
+                    Container containerObj = getContainerFromJson(containerJson);
                     try {
-                        instn.addMeasurement(measurement, cntr);
-                    } catch (ContainerException ex) {
-                        //Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (MeasurementException ex) {
-                        //Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
+                        containerObj.addMeasurement(measurement);
+                    } catch (MeasurementException e) {
+                        // Handle the exception as needed
+                        e.printStackTrace();
                     }
                 }
-           }
+            }
         }
     }
 
-    public void readDistances(Institution instn) throws FileNotFoundException, IOException, ParseException {
+    /**
+     * Reads distances from a JSON file and adds paths to the specified AidBox.
+     *
+     * @param fromAidBox the AidBox to add paths to
+     * @throws FileNotFoundException if the JSON file is not found
+     * @throws IOException           if an I/O error occurs
+     * @throws ParseException        if the JSON parsing fails
+     */
+    public void readDistances(AidBox fromAidBox) throws FileNotFoundException, IOException, ParseException {
+        String filePath = "src/pp_er/files/distances.json";
+
         JSONParser parser = new JSONParser();
-        FileReader reader = new FileReader("src/pp_er/files/distances.json");
- AidBox[] aidboxes = getAidBoxesFrominst(instn);
-        JSONArray array = (JSONArray) parser.parse(reader);
 
-        for (Object obj : array) {
-            JSONObject distanceObj = (JSONObject) obj;
-            String from = (String) distanceObj.get("from");
-            JSONArray toArray = (JSONArray) distanceObj.get("to");
+        FileReader reader = new FileReader(filePath);
+        JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
-            for (Object toObj : toArray) {
-                JSONObject to = (JSONObject) toObj;
-                String toName = (String) to.get("name");
-                int distance = ((Long) to.get("distance")).intValue();
-                int duration = ((Long) to.get("duration")).intValue();
-                
-                for(AidBox aidbox: aidboxes){
-               
-            }
-                
-                instn.addDistance(from, toName, distance, duration);
+        JSONArray distancesArray = (JSONArray) jsonObject.get("distances");
+
+        for (Object o : distancesArray) {
+            JSONObject distanceEntry = (JSONObject) o;
+
+            String to = (String) distanceEntry.get("to");
+            double distance = (double) distanceEntry.get("distance");
+            double duration = (double) distanceEntry.get("duration");
+
+            AidBox toAidBox = new AidBoxImp(to);
+
+            Path path = new Path(toAidBox, distance, duration);
+            try {
+                ((AidBoxImp) fromAidBox).addPath(path);
+            } catch (PathExeption ex) {
+                // Handle the exception as needed
+                // Logger.getLogger(JsonReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    /**
+     * Helper method to convert a JSON object to a Container instance.
+     *
+     * @param containerJson the JSON object representing a container
+     * @return the Container instance
+     */
+    private Container getContainerFromJson(JSONObject containerJson) {
+        String code = (String) containerJson.get("code");
+        ContainerType type = new ContainerTypeImp((String) containerJson.get("type"));
+        double capacity = ((Long) containerJson.get("capacity")).doubleValue();
+        return new ContainerImp(code, type, capacity);
     }
 }

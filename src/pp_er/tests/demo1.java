@@ -7,6 +7,7 @@ import pp_er.core.*;
 import pp_er.core.ContainerTypeImp;
 import com.estg.core.*;
 import com.estg.core.exceptions.*;
+import com.estg.io.Importer;
 import com.estg.pickingManagement.Report;
 import com.estg.pickingManagement.Route;
 import com.estg.pickingManagement.RouteGenerator;
@@ -15,6 +16,7 @@ import com.estg.pickingManagement.exceptions.RouteException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import pp_er.io.ImporterImp;
 import pp_er.io.JsonReader;
 
 import pp_er.pickingManagement.ReportImp;
@@ -41,100 +44,16 @@ import pp_er.pickingManagement.VehicleImp;
 public class demo1 {
   public static void main(String[] args) throws RouteException, FileNotFoundException, IOException, ParseException {
 
-      JsonReader sRead = new JsonReader();
-//       sRead.readVehicles();
-       sRead.readTypes();
-//       sRead.readAidBoxes();
-//       sRead.readContainers();
-//       sRead.readDistances();
-//       sRead.readReadings();
-        try {
-            // Create ContainerTypes
-            ContainerType waterType = new ContainerTypeImp("Water");
-            ContainerType foodType = new ContainerTypeImp("Food");
-
-            // Create Containers
-            Container waterContainer = new ContainerImp("C1", 100.0, waterType);
-            Container foodContainer = new ContainerImp("C2", 50.0, foodType);
-
-            // Create Measurements
-            Measurement waterMeasurement1 = new MeasurementImp(LocalDateTime.now(), 30.0);
-            Measurement waterMeasurement2 = new MeasurementImp(LocalDateTime.now().plusDays(1), 35.0);
-            Measurement foodMeasurement = new MeasurementImp(LocalDateTime.now(), 40.0);
-
-            // Add Measurements to Containers
-            waterContainer.addMeasurement(waterMeasurement1);
-            waterContainer.addMeasurement(waterMeasurement2);
-            foodContainer.addMeasurement(foodMeasurement);
-
-            // Create AidBoxes
-            AidBoxImp aidBox1 = new AidBoxImp("AB1", "Zone1");
-            AidBoxImp aidBox2 = new AidBoxImp("AB2", "Zone2");
-            AidBoxImp aidBox3 = new AidBoxImp("AB3", "Zone3");
-
-            // Add Containers to AidBoxes
-            aidBox1.addContainer(waterContainer);
-            aidBox1.addContainer(foodContainer);
-            aidBox2.addContainer(waterContainer);
-            aidBox3.addContainer(foodContainer);
-
-            // Create Paths between AidBoxes
-            Path path1to2 = new Path(aidBox2, 80.0, 40.0);
-            Path path2to3 = new Path(aidBox3, 10.0, 10.0);
-            Path path1to3 = new Path(aidBox3,2.0, 5.0);
-            Path path2to1 = new Path(aidBox3,50.0, 25.0);
-            Path path3to1 = new Path(aidBox3,8.0, 5.0);
-            Path path3to2 = new Path(aidBox3,10.0, 2.0);
-            Path path3to3 = new Path(aidBox3,0.0, 0.0);
-            Path path2to2 = new Path(aidBox3,0, 0.0);
-            Path path1to1 = new Path(aidBox3,0, 0.0);
-
-            aidBox1.addPath(path1to2);
-            aidBox1.addPath(path1to3);
-            aidBox2.addPath(path2to3);
-            aidBox2.addPath(path2to1);
-            aidBox3.addPath(path3to1);
-            aidBox3.addPath(path3to2);
-            aidBox1.addPath(path1to1);
-            aidBox2.addPath(path2to2);
-            aidBox3.addPath(path3to3);
-            
-            
-
-            // Create VehicleCargo
-            VehicleCargo waterCargo = new VehicleCargo(waterType, 100);
-            VehicleCargo foodCargo = new VehicleCargo(foodType, 100);
-
-            // Create Vehicles
-            Vehicle vehicle1 = new VehicleImp("V1" );
-            Vehicle vehicle2 = new VehicleImp("V2" );
-            ((VehicleImp)vehicle1).addCargo(waterCargo);
-            ((VehicleImp)vehicle1).addCargo(foodCargo);
-            ((VehicleImp)vehicle2).addCargo(waterCargo);
-            ((VehicleImp)vehicle2).addCargo(foodCargo);
-
-            // Create Institution
-            Institution institution = new InstitutionImp("My Institution");
-            institution.addAidBox(aidBox1);
-            institution.addAidBox(aidBox2);
-            institution.addAidBox(aidBox3);
-            institution.addVehicle(vehicle1);
-            institution.addVehicle(vehicle2);
-
-            // Generate Routes
-            RouteGenerator routeGenerator = new RouteGeneratorImp();
-            Route[] routes = routeGenerator.generateRoutes(institution);
-
-            // Print Routes
-            for (Route route : routes) {
-                System.out.println("Vehicle: " + route.getVehicle().getCode());
-                for (AidBox aidBox : route.getRoute()) {
-                    System.out.println("  AidBox: " + aidBox.getCode() + " in " + aidBox.getZone());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+         JsonReader jsonReader = new JsonReader();
+          Institution istn = new InstitutionImp("LA");
+          
+          Importer importer = new ImporterImp(jsonReader);
+          
+      try {
+          importer.importData(istn);
+      } catch (InstitutionException ex) {
+          Logger.getLogger(demo1.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
 }
 
